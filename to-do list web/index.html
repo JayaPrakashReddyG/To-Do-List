@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional To-Do List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            background: #fff;
+            max-width: 400px;
+            margin: 60px auto 0 auto;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            padding: 32px 28px 24px 28px;
+        }
+        h1 {
+            text-align: center;
+            color: #2d3a4b;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+        #todo-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+        #taskInput {
+            flex: 1;
+            padding: 12px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.2s;
+        }
+        #taskInput:focus {
+            border: 1.5px solid #5b9df9;
+        }
+        #addTaskButton {
+            background: #5b9df9;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0 18px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 2px 8px rgba(91, 157, 249, 0.08);
+        }
+        #addTaskButton:hover {
+            background: #407be7;
+        }
+        #taskList {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .todo-item {
+            background: #f7fafd;
+            margin-bottom: 12px;
+            padding: 13px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(91, 157, 249, 0.04);
+            transition: background 0.2s;
+            animation: fadeIn 0.4s;
+        }
+        .todo-item.completed .task-text {
+            text-decoration: line-through;
+            color: #b0b8c1;
+        }
+        .task-text {
+            flex: 1;
+            font-size: 1.05rem;
+            color: #2d3a4b;
+            margin-left: 10px;
+        }
+        .action-btn {
+            background: none;
+            border: none;
+            color: #b0b8c1;
+            font-size: 1.1rem;
+            margin-left: 8px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .action-btn:hover {
+            color: #e74c3c;
+        }
+        .check-btn {
+            color: #5b9df9;
+        }
+        .check-btn:hover {
+            color: #2ecc71;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        @media (max-width: 500px) {
+            .container {
+                max-width: 98vw;
+                padding: 18px 6vw 18px 6vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <i class="fa-solid fa-list-check" style="color:#5b9df9;"></i>
+            To-Do List
+        </h1>
+        <form id="todo-form" autocomplete="off">
+            <input type="text" id="taskInput" placeholder="Add a new task..." required>
+            <button type="submit" id="addTaskButton"><i class="fa-solid fa-plus"></i></button>
+        </form>
+        <ul id="taskList"></ul>
+    </div>
+    <script>
+        // Professional To-Do List Functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const taskInput = document.getElementById('taskInput');
+            const addTaskButton = document.getElementById('addTaskButton');
+            const taskList = document.getElementById('taskList');
+            const todoForm = document.getElementById('todo-form');
+
+            // Add task on form submit
+            todoForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                addTask(taskInput.value.trim());
+                taskInput.value = '';
+            });
+
+            // Add task function
+            function addTask(taskText) {
+                if (!taskText) return;
+                const li = document.createElement('li');
+                li.className = 'todo-item';
+
+                // Check/complete button
+                const checkBtn = document.createElement('button');
+                checkBtn.className = 'action-btn check-btn';
+                checkBtn.innerHTML = '<i class="fa-regular fa-circle"></i>';
+                checkBtn.title = 'Mark as completed';
+                checkBtn.onclick = () => {
+                    li.classList.toggle('completed');
+                    checkBtn.innerHTML = li.classList.contains('completed')
+                        ? '<i class="fa-solid fa-circle-check"></i>'
+                        : '<i class="fa-regular fa-circle"></i>';
+                };
+
+                // Task text
+                const span = document.createElement('span');
+                span.className = 'task-text';
+                span.textContent = taskText;
+
+                // Delete button
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'action-btn';
+                deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+                deleteBtn.title = 'Delete task';
+                deleteBtn.onclick = () => {
+                    li.style.animation = 'fadeIn 0.3s reverse';
+                    setTimeout(() => li.remove(), 250);
+                };
+
+                li.appendChild(checkBtn);
+                li.appendChild(span);
+                li.appendChild(deleteBtn);
+                taskList.appendChild(li);
+            }
+        });
+    </script>
+</body>
+</html>
