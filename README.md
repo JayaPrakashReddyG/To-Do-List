@@ -16,7 +16,7 @@ Perfect for showcasing on your portfolio or LinkedIn!
 
 ## Demo
 
-![To-Do List Screenshot](screenshot.png) <!-- Add your screenshot here -->
+![To-Do List Screenshot](to-do list.png) <!-- Add your screenshot here -->
 
 ## Getting Started
 
